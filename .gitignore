@@ -2,7 +2,8 @@
 
 # Optional REPL history
 .node_repl_history
-
+node_modules
+express-app-gen/node_modules
 # Output of 'npm pack'
 *.tgz
 
