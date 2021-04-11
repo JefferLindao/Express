@@ -5,6 +5,11 @@
 node_modules
 express-app-gen/node_modules
 ecommerce/node_modules
+ecommerce/public/favicon.png
+ecommerce/public/images
+ecommerce/public/logo
+
+
 # Output of 'npm pack'
 *.tgz
 
