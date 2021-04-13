@@ -36,7 +36,7 @@ router.post('/', async function (req, res, next) {
     const createProduct = await productSrv.createProducts({ product });
     res.status(201).json({
       data: createProduct,
-      message: 'products listed'
+      message: 'products created'
     })
   } catch (error) {
     next(error);
