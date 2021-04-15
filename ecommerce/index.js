@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path')
 const productsRouter = require('./routes/products');
 const productsApiRouter = require('./routes/api/products');
+const { logErrors, errorHandler, clientErrorHandlers } = require('./util/middlewares/errorsHandlers');
+
 const app = express();
 
 app.use(express.json());
@@ -20,6 +22,10 @@ app.use("/api/products", productsApiRouter);
 app.get('/', function (req, res) {
   res.redirect('/products');
 })
+
+app.use(logErrors);
+app.use(clientErrorHandlers);
+app.use(errorHandler);
 
 const server = app.listen(8000, function () {
   console.log(`Listening http://localhost:${server.address().port}`)
