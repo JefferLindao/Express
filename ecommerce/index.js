@@ -2,7 +2,10 @@ const express = require('express');
 const path = require('path')
 const productsRouter = require('./routes/products');
 const productsApiRouter = require('./routes/api/products');
-const { logErrors, errorHandler, clientErrorHandlers } = require('./util/middlewares/errorsHandlers');
+const { logErrors, errorHandler, clientErrorHandlers, wrapErrors } = require('./util/middlewares/errorsHandlers');
+const isRequestAjaxOrApi = require('./util/isRequestAjaxOrApi');
+const { func } = require('joi');
+const boom = require('boom');
 
 const app = express();
 
@@ -21,9 +24,20 @@ app.use("/api/products", productsApiRouter);
 //redirect
 app.get('/', function (req, res) {
   res.redirect('/products');
-})
+});
+
+app.use(function (req, res, next) {
+  if (isRequestAjaxOrApi(req)) {
+    const {
+      output: { statusCode, payload }
+    } = boom.notFound();
+    res.status(statusCode).json(payload);
+  }
+  res.status(404).render('404')
+});
 
 app.use(logErrors);
+app.use(wrapErrors);
 app.use(clientErrorHandlers);
 app.use(errorHandler);
 
