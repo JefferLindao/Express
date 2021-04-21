@@ -2,9 +2,9 @@ const express = require('express');
 const path = require('path')
 const productsRouter = require('./routes/products');
 const productsApiRouter = require('./routes/api/products');
+const authApiRouter = require('./routes/api/auth');
 const { logErrors, errorHandler, clientErrorHandlers, wrapErrors } = require('./util/middlewares/errorsHandlers');
 const isRequestAjaxOrApi = require('./util/isRequestAjaxOrApi');
-const { func } = require('joi');
 const boom = require('boom');
 
 const app = express();
@@ -20,6 +20,7 @@ app.set("views", path.join(__dirname, "views"));
 //routes
 app.use('/products', productsRouter);
 app.use("/api/products", productsApiRouter);
+app.use("/api/auth", authApiRouter)
 
 //redirect
 app.get('/', function (req, res) {
