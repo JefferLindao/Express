@@ -8,6 +8,8 @@ ecommerce/node_modules
 ecommerce/public/favicon.png
 ecommerce/public/images
 ecommerce/public/logo
+ecommerce/.env
+ecommerce/.nyc_output
 
 
 # Output of 'npm pack'
