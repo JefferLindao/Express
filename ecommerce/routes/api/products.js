@@ -1,8 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 const ProductService = require('../../services/product');
+const cacheResponse = require('../../util/cacheResponse');
 const validation = require('../../util/middlewares/validationHandler');
 const { createProductSchema, updateProductSchema, productIdSchema } = require('../../util/schemas/products');
+const { FIVE_MINUTES_IN_SECONDS, SIXTY_MINUTES_IN_SECONDS } = require('../../util/time');
 
 //Estrategia
 require('../../util/auth/strategies/jwt');
@@ -16,6 +18,7 @@ function productsApi(app) {
     const { tags } = req.query;
 
     try {
+      cacheResponse(res, FIVE_MINUTES_IN_SECONDS)
       const products = await productSrv.getProducts({ tags });
 
       res.status(200).json({
@@ -30,6 +33,7 @@ function productsApi(app) {
   router.get('/:productId', async function (req, res, next) {
     const { productId } = req.params;
     try {
+      cacheResponse(res, SIXTY_MINUTES_IN_SECONDS)
       const product = await productSrv.getProduct({ productId });
       res.status(200).json({
         data: product,
